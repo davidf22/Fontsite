@@ -1,0 +1,197 @@
+{% extends "layout.html" %}{% block content %} {% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Home{% endblock %}</title>
+</head>
+<body>
+    
+    {% include 'includes/header.html' %}
+
+    
+    
+        <!-- frontline-->
+    <div class="container">
+
+    <div class="container mt-4">
+        <div class="row align-items-center">
+            <div class="col-md-5">
+                <h2 class="mb-3"style="color: blue;">Retreat Collaborate and Experience Togetherness</h2>
+                <p>We provide an wonderful experience for family and friends
+                Time to make another memorable moments.
+                </p>
+                <a href='about/' class="btn btn-primary mt-3">Learn More</a>
+
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="{% static 'assets/picture1.png' %}" alt="Fonts" class="Fonts">
+
+            </div>
+            <div>
+
+            </div>
+
+        </div>
+       
+      </div>
+      <!-- search bar -->
+      <div class="container mt-3">
+        <div class="row col-12 d-flex justify-content-center ">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="p-1 rounded shadow" style="background-color: rgb(209, 222, 240); border-radius: 80px;">
+                    <div class="row">
+                        <form id="venue-form" action="search/" method="POST" class="d-flex flex-wrap align-items-end w-100">
+                            {% csrf_token %}
+                        <!-- Check Date -->
+                        <div class="me-5 flex-grow-2">
+                            <label for="start-date" class="form-label"></label>
+                            <input type="date" id="start-date" name="start_date" class="form-control">
+                        </div>
+                        
+                        <div class="me-5 flex-grow-2">
+                            <label for="end-date" class="form-label"></label>
+                            <input type="date" id="end-date" name="end_date" class="form-control">
+                        </div>
+                        
+                        <!-- Venue -->
+                        <div class="me-5 flex-grow-2">
+                            <label for="venue" class="form-label"></label>
+                            <select id="venue" class="form-control" name="venue">
+                                <option value="" disabled selected>Select a venue</option>
+                                <option value="master">Master Suit</option>
+                                <option value="deluxe">Deluxe Suit</option>
+                                <option value="amberhall">Amber Hall</option>
+                                <option value="fontshall">Fonts Hall</option>
+                                <option value="doublerm">Double Room</option>
+                                <option value="singlerm">Single Room</option>
+                                <option value="emerald">Emerald</option>
+                            </select>
+                        </div>
+                          <!-- Search Button -->
+                          <div class="align-self-end">
+                            <label class="d-block invisible">Search</label>
+                            <button  type="submit" class="btn btn-primary px-4 py-2">Search</button>
+                        </div>
+                    </form>
+                    </div>
+                    
+                      
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+
+    </div>
+
+    <!-- venue display -->
+    <div class="container mt-4 ms-5">
+        <div class="row align-items-center gy-4">
+            <div class="col-md-4 d-flex justify-content-center">
+                <img src="{% static '/assets/big.png' %}" alt="Fonts" class="Fonts img-fluid">
+
+            </div>
+            <div class="col-md-3 d-flex flex-column align-items-center gap-4">
+                <img src="{% static '/assets/loc.png' %}" alt="Fonts" class="Fonts img-fluid mb-5">
+                <img src="{% static '/assets/pic.png' %}" alt="Fonts" class="Fonts img-fluid">
+            </div>
+            <div class="col-md-3 d-flex flex-column align-items-center gap-4">
+                <img src="{% static '/assets/hot.png' %}" alt="Fonts" class="Fonts img-fluid  mb-5">
+                <img src="{% static '/assets/resort.png' %}" alt="Fonts" class="Fonts img-fluid ">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    
+    <style>
+        .form-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        .form-control {
+            border-radius: 25px;
+            padding: 10px;
+        }
+        .btn-primary {
+            font-size: 16px;
+            border-radius: 8px;
+        }
+    </style>
+
+</div>
+<script>
+    const unavailableDates = [
+        "2025-04-15",
+        "2025-04-17",
+        "2025-04-22"
+    ];
+
+    function getDateRange(start, end) {
+        const dateArray = [];
+        let currentDate = new Date(start);
+        const stopDate = new Date(end);
+
+        while (currentDate <= stopDate) {
+            const yyyy = currentDate.getFullYear();
+            const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+            const dd = String(currentDate.getDate()).padStart(2, '0');
+            dateArray.push(`${yyyy}-${mm}-${dd}`);
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        return dateArray;
+    }
+
+    document.getElementById("venue-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const startDate = document.getElementById("start-date").value;
+        const endDate = document.getElementById("end-date").value;
+        const venue = document.getElementById("venue").value;
+
+        if (!startDate || !endDate || !venue) {
+            alert("Please select both start and end dates, and a venue.");
+            e.preventDefault();
+            return;
+        }
+
+        if (startDate > endDate) {
+            alert("End date must be after start date.");
+            e.preventDefault();
+            return;
+        }
+
+        const selectedRange = getDateRange(startDate, endDate);
+
+        const conflict = selectedRange.some(date => unavailableDates.includes(date));
+
+        if (conflict) {
+            alert("One or more selected dates are unavailable. Please choose a different range.");
+            e.preventDefault();
+            return;
+        }
+
+        window.location.href = `/${venue}/?start=${startDate}&end=${endDate}`;
+
+     
+       
+    });
+</script>
+
+
+{% include 'includes/footer.html' %}
+    
+
+</body>
+</html>
+
+{% endblock %}

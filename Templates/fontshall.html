@@ -1,0 +1,139 @@
+{% extends "layout.html" %}{% block content %} {% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fontshall</title>
+    <style>
+        .box {
+            border: 2px solid rgb(247, 236, 236);
+            padding: 100px;
+            height: 150px;
+            border-radius: 15px;
+            margin-right: 150px;
+            align-items: end;
+            justify-content: space-between;
+           
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'includes/header.html' %}
+
+    
+    <div style="display: flex; align-items: center; margin: 10px auto;">
+        <a href="/" style="font-size: 14px; text-decoration: none; color: blue; font-weight: bold;">Home</a> 
+        <span style=" font-size: 14px; color: gray; margin-left: 5px;">/ Venue</span>
+        
+    </div>
+
+    <div style="display: flex; flex-direction: column; align-items: center; width: 80%; margin: 0 auto; transform: translateX(-5%);">
+        <h1 style="font-weight: bold;font-size: 36px; margin: 0; flex-grow: 1; text-align: center;">Fonts Hall</h1>
+        <h2 style="text-align: center;font-size: 15px; color: gray;">FONTS RESORT</h2>
+    </div>
+             <!-- venue details display -->
+    <div class="container d-flex justify-content-center align-items-center" style="margin-top: 20px;">
+        <div class="row d-flex justify-content-center align-items-center text-center">
+            <div class="col-12 mb-3 mb-md-0 col-md-4 d-flex justify-content-center">
+                <img src="{% static '/assets/coo.png' %}" alt="Fonts" class="Fonts img-fluid">
+
+            </div>
+            <div class="col-md-3 d-flex flex-column justify-content-center align-items-center">
+                <img src="{% static '/assets/tum.png' %}" alt="Fonts" class="Fonts img-fluid mb-3">
+                <img src="{% static '/assets/nab.png' %}" alt="Fonts" class="Fonts img-fluid">
+            </div>
+        </div>
+    </div>
+
+            <!--about package-->
+            <div class="container" style="margin-top: 40px;">
+                <div class="row justify-content-center">
+                  <div class="col-md-6">
+                    <!-- Enlarged box with package details, text aligned top-left -->
+                    <div class="box p-4 mb-3" style="width: 100%; min-height: 220px; border: 1px solid #ccc; border-radius: 5px; text-align: left;">
+                      <h2 style="font-size: 15px; margin-bottom: 10px;">Package: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequa</h2>
+                      <p style="margin-bottom: 0;">$200 per day</p>
+                      <div id="date-range-info" class="alert alert-info mt-3">
+                        <!-- Info will be inserted here -->
+                    </div>
+                    </div>
+                    <!-- Button placed below the box and centered -->
+                    <div class="text-center">
+                        <a href="{% url 'booking' %}?venue=fonts+hall&price=200&image=nab.png" class="btn btn-primary">Reserve</a>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+           
+
+            <!--more images-->
+            <div class="container mt-5">
+                <div class="row justify-content-center">
+                    <div class="col-md-6 d-flex justify-content-center gap-3">
+                        <img src="{% static '/assets/hb.png' %}" alt="Fonts" class="Fonts img-fluid">
+                        <img src="{% static '/assets/hf.png' %}" alt="Fonts" class="Fonts img-fluid">
+                        <img src="{% static '/assets/hs.png' %}" alt="Fonts" class="Fonts img-fluid">
+                        <img src="{% static '/assets/hl.png' %}" alt="Fonts" class="Fonts img-fluid">
+                        
+                        
+        
+        
+                    </div>
+        
+                </div>
+        
+            </div>
+
+            <script>
+                function getQueryParams() {
+                    const params = new URLSearchParams(window.location.search);
+                    return {
+                        start: params.get("start"),
+                        end: params.get("end")
+                    };
+                }
+              
+                function calculateDays(start, end) {
+                    const startDate = new Date(start);
+                    const endDate = new Date(end);
+                    if (isNaN(startDate) || isNaN(endDate)) return null;
+              
+                    const diffTime = endDate - startDate;
+                    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // include last day
+                    return diffDays;
+                }
+              
+                window.addEventListener("DOMContentLoaded", () => {
+                    const { start, end } = getQueryParams();
+                    const fixedPricePerDay = 200;
+              
+                    if (start && end) {
+                        const days = calculateDays(start, end);
+                        if (days) {
+                            const totalCost = days * fixedPricePerDay;
+                            const container = document.getElementById("date-range-info");
+                            if (container) {
+                                container.textContent = `You selected ${days} day${days > 1 ? "s" : ""} from ${start} to ${end}.
+                                Total cost: ${totalCost.toFixed(2)} (${days} × $${fixedPricePerDay})`;
+                            }
+                        }
+                    }
+                });
+              </script>
+
+
+            
+          
+            
+</body>
+
+        {% include 'includes/footer.html' %}
+
+</html>
+
+{% endblock %}

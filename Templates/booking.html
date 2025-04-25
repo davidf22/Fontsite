@@ -1,0 +1,86 @@
+{% extends "layout.html" %}{% block content %} {% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Payment{% endblock %}</title>
+    <style>
+        .box {
+            border: 2px solid rgb(247, 236, 236);
+            padding: 100px;
+            height: 150px;
+            border-radius: 15px;
+            margin-right: 150px;
+            align-items: end;
+            justify-content: space-between;
+           
+        }
+    </style>
+
+</head>
+<script src="https://js.stripe.com/v3/"></script>
+<body>
+
+    {% include 'includes/header.html' %}
+
+    <div class="container d-flex flex-column justify-content-center align-items-center">
+        <img src="{% static '/assets/step1.png' %}" alt="Fonts" class="Fonts img-fluid">
+        <h1 class="text-primary mt-3">Booking information</h1>
+        <h3>please fill up the blank</h3>
+
+        <div class="container" style="margin-top: 40px;">
+            <div class="row align-items-center">
+              <!-- Image Column -->
+              <div class="col-12 mb-3 mb-md-0 col-md-4">
+                <img id="venueImage"  src="{% static '/assets/big.png' %}" alt="Fonts" class="img-fluid" style="max-width: 100%; height: auto;">
+              </div>
+              <!-- Box Column -->
+              <div class="col-12 mb-3 mb-md-0 col-md-6 d-flex">
+                <div class="box w-100" style="min-height:220px; padding: 20px; text-align: left;">
+                  <h2 style="text-align: left; font-size: 25px;">Booking Info</h2>
+                  <p><strong>Venue:</strong> <span id="venueName"></span></p>
+                  <p><strong>Price:</strong> $<span id="venuePrice"></span> per day</p>
+                  
+                  
+                </div>
+              </div>
+            </div>
+            <form action="create-checkout-session/" method="POST">
+                <button class="col-12 mb-3 mb-md-0 btn btn-primary mb-3"type="submit" id="checkout-button" style="width: 200px;">Checkout</button>
+              </form>
+            <a class="btn btn-primary" href="/">cancel</a>
+          </div>
+        </div>
+    </div>
+
+    <script>
+      // Simple JS to read query parameters and display venue info
+      const urlParams = new URLSearchParams(window.location.search);
+      const venue = urlParams.get('venue') || 'Unknown Venue';
+      const price = urlParams.get('price') || 'N/A';
+      const image = urlParams.get('image') || 'big.png'; 
+     
+  
+      document.getElementById('venueName').textContent = venue;
+      document.getElementById('venuePrice').textContent = price;
+
+      const imgElement = document.getElementById('venueImage');
+  if (imgElement) {
+    imgElement.src = `/static/assets/${image}`;
+  }
+  </script>
+
+
+
+    {% include 'includes/footer.html' %}
+
+          
+    
+</body>
+
+</html>
+
+{% endblock %}

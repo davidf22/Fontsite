@@ -1,0 +1,66 @@
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const currentPath = window.location.pathname.split('/').pop(); 
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (href === currentPath) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  });
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">FontsResort</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto d-flex" style="gap: 20px;">
+
+          <li class="nav-item order-0 order-lg-last">
+            <a class="nav-link" href="#">
+              <i class="fas fa-user-circle"></i> User
+            </a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about/">About us</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Venue
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="master/">Master Suit</a></li>
+              <li><a class="dropdown-item" href="deluxe/">Deluxe Suit</a></li>
+              <li><a class="dropdown-item" href="amberhall/">Amber Hall</a></li>
+              <li><a class="dropdown-item" href="fontshall/">Fonts Hall</a></li>
+              <li><a class="dropdown-item" href="doublerm/">Double Room</a></li>
+              <li><a class="dropdown-item" href="singlerm/">Single Room</a></li>
+              <li><a class="dropdown-item" href="emerald/">Emerald</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="booking/">Payment</a>
+
+          </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
