@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from userauth.models import UserAccount
 
 
-class USerRegistrationForm(UserCreationForm):
+class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'johndoe@gmail.com'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*******'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*******'}))

@@ -2,8 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from userauth import forms as userauth_forms
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect
-from django.urls import reverse
+from userauth import models as userauth_models
 
 
 def register_view(request):
@@ -11,24 +10,63 @@ def register_view(request):
         messages.success(request, 'You are already logged in')
         return redirect('/')
     
-    form = userauth_forms.USerRegistrationForm(request.POST or None)
-    
-    if form.is_valid():
-        user = form.save()
-        email = form.cleaned_data.get('email')
-        password = form.cleaned_data.get('password')
+    if request.method == 'POST':
+        form = userauth_forms.UserRegistrationForm(request.POST or None)
 
-        user_ = authenticate(email=email, password=password)
-        if user_ is not None:
-            login(request, user_)
+        if form.is_valid():
+            user = form.save()
+            email = form.cleaned_data.get('email')
+            password1 = form.cleaned_data.get('password1')
 
-            messages.success(request, 'Account created successfully!')
-            return redirect("login")
-        else:
-            messages.error(request, 'Authentication failed. Please try loggin in manually')
+            user = authenticate(request, email=email, password=password1)
+            print(f'user is ==== {user}')
+            if user is not None:
+                login(request, user)
+
+                messages.success(request, 'Account created successfully!')
+                return redirect("login")
+            else:
+                messages.error(request, 'Authentication failed. Please try loggin in manually')
+    else:
+        form = userauth_forms.UserRegistrationForm()
 
     context = {
         'form': form
     }
 
     return render(request, 'auth/sign-up.html', context)
+
+
+def login_view(request):
+    if request.user.is_authenticated:
+        messages.success(request, 'You are already logged in')
+        return redirect('/')
+
+    form = userauth_forms.LoginForm()
+
+    if request.method == 'POST':
+        form = userauth_forms.LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Login successfully')
+                next_url = request.GET.get('next', '/')
+                return redirect(next_url)
+            else:
+                messages.error(request, 'Invalid email or password')
+        
+    context = {
+        'form': form
+    }
+    return render(request, 'auth/login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, 'Logout successfull')
+
+    return redirect('userauth:login')

@@ -25,26 +25,22 @@
 <div class="col-md-6">
     <div class="card shadow-none p-5" style="width: 100%; max-width: 400px;">
         <h3 class="text-center mb-4">Login</h3>
-        <form method="post">
+
+        <form class='needs-validation' method="POST">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="username" class="form-label">Username</label>
-                <input type="text" name="username" id="username" class="form-control" placeholder="Enter your username" required>
+                <label for="email" class="form-label">Email address</label>
+                {{ form.email }}
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="Enter your password" required>
+                {{ form.password }}
             </div>
-            <div>
-                <h9>
-                    By signing up you agree to terms and conditions at fonts.
-                </h9>
-            </div>
-            <div class="d-grid mb-4">
+            <div class="text-center mb-4">
                 <button type="submit" class="btn btn-primary">Login</button>
-                
             </div>
         </form>
+
         <div class="d-flex justify-content-around">
             <a  href="https://accounts.google.com/signin" target="_blank" class="btn btn-outline-danger">Google</a>
             <a  href="https://www.facebook.com/login" target="_blank" class="btn btn-outline-primary">Facebook</a>

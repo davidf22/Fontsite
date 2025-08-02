@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.messages import constants as messages
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,11 +47,18 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',  
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.github',
+    'userauth',
+    'base'
 ]
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'auth:login'
+
+LOGIN_REDIRECT_URL = ''
+
+LOGOUT_REDIRECT_URL = 'userauth:login'
+
+#LOGIN_URL = '/login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -132,7 +141,7 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-STATIC_ROOT = BASE_DIR / "fontsite/static" 
+STATIC_ROOT = BASE_DIR / "fontsite/static"
 
 
 # Default primary key field type
@@ -151,5 +160,10 @@ STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 
 STRIPE_WEBHOOK_SECRET =""
 
-
 APPEND_SLASH = False
+
+AUTH_USER_MODEL = 'userauth.UserAccount'
+
+MESSAGES_TAGS = {
+    messages.ERROR: 'danger'
+}

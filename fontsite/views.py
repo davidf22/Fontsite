@@ -1,30 +1,11 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.views import View
 import stripe
 from django.conf import settings
 from django.http import JsonResponse, HttpResponse
 
-
 stripe.api_key= settings.STRIPE_SECRET_KEY
-
-def user_login(request):
-    if request.method == "POST":
-        username = request.POST.get("username")
-        password = request.POST.get("password")
-        mock_username = "admin"
-        mock_password = "password123"
-
-        if username == mock_username and password == mock_password:
-            # Simulate a successful login by redirecting to homepage
-            return HttpResponseRedirect(reverse("home"))
-        else:
-            return render(request, "login.html", {"error": "Invalid username or password."})
-
-    return render(request, "login.html")
-
 
 def home(request):
     return render(request, 'home.html')
@@ -66,10 +47,11 @@ def booking(request):
 def paymentcom(request):
     return render(request, 'paymentcom.html')
 
+
 class CreateCheckoutSessionView(View):
     def post(self, requests, *args, **kwargs): 
         YOUR_DOMAIN = "http://127.0.0.1:8000"
-   
+
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
