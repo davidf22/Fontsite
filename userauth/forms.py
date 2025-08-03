@@ -7,10 +7,11 @@ class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'johndoe@gmail.com'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*******'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': '*******'}))
+    phone_number = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': '+12 3456789'}))
 
     class Meta:
         model = UserAccount
-        fields = ['email', 'password1', 'password2']
+        fields = ['email', 'password1', 'password2', 'phone_number']
 
 
 class LoginForm(forms.Form):

@@ -15,18 +15,18 @@ def register_view(request):
 
         if form.is_valid():
             user = form.save()
-            email = form.cleaned_data.get('email')
-            password1 = form.cleaned_data.get('password1')
-
-            user = authenticate(request, email=email, password=password1)
-            print(f'user is ==== {user}')
+            # email = form.cleaned_data.get('email')
+            # password1 = form.cleaned_data.get('password1')
+            # phone_number = form.cleaned_data.get('phoneNumber')
+            
+            # user = authenticate(request, email=email, password=password1, phone_number=phone_number)
             if user is not None:
-                login(request, user)
+                #login(request, user)
 
                 messages.success(request, 'Account created successfully!')
-                return redirect("login")
+                return redirect("userauth:login")
             else:
-                messages.error(request, 'Authentication failed. Please try loggin in manually')
+                messages.error(request, 'Authentication failed. Please try logging in manually')
     else:
         form = userauth_forms.UserRegistrationForm()
 
@@ -49,8 +49,9 @@ def login_view(request):
         if form.is_valid():
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password')
-
-            user = authenticate(request, email=email, password=password)
+            phone_number = form.cleaned_data.get('phoneNumber')
+            
+            user = authenticate(request, email=email, password=password, phone_number=phone_number)
             if user is not None:
                 login(request, user)
                 messages.success(request, 'Login successfully')
