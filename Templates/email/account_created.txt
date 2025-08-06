@@ -1,0 +1,10 @@
+Hi {{ user }},
+
+Welcome to Fontsite! 
+
+Your account has been created successfully. You can now log in and start exploring our platform.
+
+Thank you for joining us!
+
+Best regards,
+The Fontsite Team
