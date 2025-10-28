@@ -1,7 +1,4 @@
 {% extends "layout.html" %}{% block content %} {% load static %}
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +10,6 @@
     
     {% include 'includes/header.html' %}
 
-    
-    
         <!-- frontline-->
     <div class="container">
 
@@ -78,9 +73,7 @@
                             <button  type="submit" class="btn btn-primary px-4 py-2">Search</button>
                         </div>
                     </form>
-                    </div>
-                    
-                      
+                    </div>                                       
                     
                 </div>
             </div>
@@ -109,8 +102,6 @@
         </div>
 
     </div>
-
-
     
     <style>
         .form-label {
@@ -179,18 +170,12 @@
             e.preventDefault();
             return;
         }
-
         window.location.href = `/${venue}/?start=${startDate}&end=${endDate}`;
-
-     
        
     });
 </script>
 
-
 {% include 'includes/footer.html' %}
-    
-
 </body>
 </html>
 

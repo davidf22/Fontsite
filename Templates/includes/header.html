@@ -1,12 +1,9 @@
 
-
-
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const currentPath = window.location.pathname.split('/').pop(); 
+    const currentPath = window.location.pathname.split('/').pop();
     const navLinks = document.querySelectorAll('.nav-link');
 
     navLinks.forEach(link => {
@@ -30,8 +27,12 @@
         <ul class="navbar-nav ms-auto d-flex" style="gap: 20px;">
 
           <li class="nav-item order-0 order-lg-last">
-            <a class="nav-link" href="#">
-              <i class="fas fa-user-circle"></i> User
+              {% if request.user.is_authenticated %}
+                <i class="fas fa-user-circle"></i> {{ username }}
+                <a class="nav-link" href="#">
+              {% else %}
+                <a class="nav-link" href="/auth/login/">Login <a/>
+              {% endif %}
             </a>
           </li>
           
