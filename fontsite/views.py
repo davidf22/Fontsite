@@ -8,7 +8,7 @@ from django.http import JsonResponse, HttpResponse
 stripe.api_key= settings.STRIPE_SECRET_KEY
 
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'username': request.user.username})
 
 def mock_search(request):
     return HttpResponse("Search processed! (mock)")

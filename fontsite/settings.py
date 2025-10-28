@@ -1,3 +1,4 @@
+from decouple import config
 from pathlib import Path
 import os
 from django.contrib.messages import constants as messages
@@ -13,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-p3y5zv^#@i4p!k5n-^%3b!-+!ncl234wv=56#dxm+w-=^l2%=x'
+SECRET_KEY = config("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -26,6 +27,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,13 +43,15 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'userauth',
     'base',
+    'addon',
+    'user_dashboard',
     'anymail'
 ]
 
 SITE_ID = 1
 LOGIN_URL = 'auth:login'
 
-LOGIN_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = 'userauth:login'
 
@@ -84,7 +88,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'fontsite.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -132,11 +135,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-STATIC_ROOT = BASE_DIR / "fontsite/static"
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATIC_ROOT = BASE_DIR / "staticfiles" # for prod
+
+# MEDIA_ROOT = '/media/'
+
+# MEDIA_URL = [BASE_DIR / '/media']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -174,3 +180,8 @@ EMAIL_BACKEND = 'anymail.backends.mailgun.EmailBackend'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_EMAIL')
 
 SERVER_EMAIL = os.environ.get('SERVER_EMAIL')
+
+ADMIN_USER_EMAIL=config("ADMIN_USER_EMAIL", default=None)
+ADMIN_USER_PASSWORD=config("ADMIN_USER_PASSWORD", default=None)
+ADMIN_USER_FIRSTNAME=config("ADMIN_USER_FIRSTNAME", default=None)
+ADMIN_USER_LASTNAME=config("ADMIN_USER_LASTNAME", default=None)
