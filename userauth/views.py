@@ -26,17 +26,17 @@ def register_view(request):
                     'user': user_name
                 }
                 # Send email after registration success
-                subject = 'Testing welcome to Fontsite!'
-                text_body = render_to_string('email/account_created.txt', text_data)
-                html_body = render_to_string('email/account_created.html', text_data)
-                msg = EmailMultiAlternatives(
-                    subject=subject,
-                    from_email=settings.FROM_EMAIL,
-                    to=[user.email],
-                    body=text_body
-                )
-                msg.attach_alternative(html_body, 'text/html')
-                msg.send()
+                # subject = 'Testing welcome to Fontsite!'
+                # text_body = render_to_string('email/account_created.txt', text_data)
+                # html_body = render_to_string('email/account_created.html', text_data)
+                # msg = EmailMultiAlternatives(
+                #     subject=subject,
+                #     from_email=settings.FROM_EMAIL,
+                #     to=[user.email],
+                #     body=text_body
+                # )
+                # msg.attach_alternative(html_body, 'text/html')
+                # msg.send()
                 
                 return redirect("userauth:login")
             else:
