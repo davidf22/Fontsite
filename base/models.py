@@ -15,6 +15,14 @@ HOTEL_STATUS = (
     ("Live", "Live"),
 )
 
+ICON_TYPE = (
+    ("Bootstrap Icons", "Bootstrap Icons"),
+    ("", "Disabled"),
+    ("Rejected", "Rejected"),
+    ("In Review", "In Review"),
+    ("Live", "Live"),
+)
+
 class Venue(models.Model):
     user = models.ForeignKey(UserAccount, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=100, blank=True, null=True)
@@ -48,6 +56,25 @@ class Venue(models.Model):
     
     def thumbnail(self):
         return mark_safe("<img src='%s' width='50' height='50' style='object-fit: cover; border-radius: 6px;' />" % (self.image.url))
+    
+
+class VenueGallery(models.Model):
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    image = models.FileField(upload_to="hotel_gallery")
+    hgid = ShortUUIDField(unique=True, max_length=10, max_length=20, alphabet="abcdefghijklmnopqrstuvwxyz")
+
+    def __str__(self):
+        return str(self.venue.name)
+    
+    class Meta:
+        verbose_name_plural = "Hotel Gallery"
+
+
+class VenueFeatures(models.Model):
+    venue = models.ForeignKey(Venue, on_delete=models.CASCADE)
+    icon_type = models.CharField(max_length=100, null=True)
+    
+
 
 class Booking(models.Model):
     user = models.ForeignKey(UserAccount, on_delete=models.SET_NULL, null=True, blank=True, related_name='user_booking')
